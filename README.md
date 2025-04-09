@@ -1,2 +1,2 @@
 # boost-ldo-rail-supply
-Precision analog power supply: 3.3–5 V in → ±5 V out @ low noise for analog systems
+Clean analog ±5 V power supply from 3.3–5 V input. Boost + Inverting DC-DC → TPS7A39 for ultra-low-noise rails.
