@@ -1,0 +1,135 @@
+# TPS63700 –12 V @ 250 mA Design Calculations
+
+Input Voltage: 3.3 V  
+Output Voltage: –12 V  
+Load Current: 250 mA  
+Switching Frequency: 1.4 MHz  
+Reference Voltage (VREF): 1.210 V (typical under load)  
+Topology: Inverting buck-boost (CCM)
+
+---
+
+## R3 / R4: Feedback Voltage Divider
+
+Formula:  
+VOUT = –VREF × (1 + R3 / R4)
+
+Selected:  
+- R4 = 100 kΩ  
+- VREF = 1.210 V  
+- Target VOUT = –12 V
+
+Calculation:  
+R3 = (12 / 1.210 – 1) × 100k ≈ 891.7 kΩ  
+Chosen: R3 = 909 kΩ (E96 series)  
+Resulting VOUT ≈ –12.2 V — acceptable since output is fed into an LDO
+
+---
+
+## R1 / C1: RC Filter for VIN (logic supply)
+
+Purpose: Filters control VIN input (Pin 3)
+
+TI recommendation:  
+- R1 = 10 Ω  
+- C1 = 100 nF (X7R)  
+- RC time constant ≈ 1 µs
+
+---
+
+## C2: VREF Bypass Capacitor
+
+Purpose: Noise suppression on the reference output (Pin 10)
+
+Selected:  
+- C2 = 220 nF (X7R, 0402–0603)  
+- Matches datasheet recommendation
+
+---
+
+## C3 / R2: Feed-Forward Network
+
+Purpose: Speeds up feedback response and limits noise  
+- R2 = 121 kΩ  
+- C3 = 10 pF  
+- Used in the official –12 V reference design (datasheet p.15)
+
+---
+
+## C6: Compensation Capacitor
+
+Purpose: Ensures stability of the internal error amplifier  
+- C6 = 4.7 nF (X7R, 0402)  
+- Connected to COMP (Pin 1)
+
+---
+
+## L1: Inductor
+
+Requirements:  
+- Value: 10 µH  
+- Saturation current ≥ 1.5 A  
+- DCR < 100 mΩ
+
+Load analysis:  
+- Avg inductor current ≈ 1.15 A  
+- Peak current (30% ripple): ≈ 1.32 A  
+Selected: 10 µH, Isat ≥ 1.8 A
+
+---
+
+## D1: Schottky Diode
+
+Type: Schottky  
+Requirements:  
+- VRRM ≥ 20 V  
+- IF ≥ 0.5 A
+
+Selected:  
+- SS14  
+- VRRM = 40 V, IF = 1 A, IFSM = 30 A  
+- Vf ≈ 0.4 V @ 250 mA
+
+---
+
+## C4: Input Capacitor (power input)
+
+Purpose: Filters noise on IN pin (Pin 5)
+
+Selected:  
+- C4 = 10 µF (X7R, 0805 or larger)  
+- 22 µF can be used for improved transient response
+
+---
+
+## C5: Output Capacitors
+
+Requirement:  
+- Effective capacitance ≥ 12 µF  
+- Low ESR  
+- Withstand –12 V
+
+Selected:  
+- 4 × 4.7 µF X7R, 16 V  
+- Effective total ≈ 13–15 µF after DC-bias
+
+---
+
+## Bill of Materials Summary
+
+| Ref | Value        | Purpose                          |
+|-----|--------------|----------------------------------|
+| R1  | 10 Ω         | VIN RC filter (logic)            |
+| C1  | 100 nF       | VIN RC filter (logic)            |
+| C2  | 220 nF       | VREF bypass                      |
+| R4  | 100 kΩ       | Bottom of voltage divider        |
+| R3  | 909 kΩ       | Top of voltage divider           |
+| R2  | 121 kΩ       | Noise filter with C3             |
+| C3  | 10 pF        | Feed-forward cap                 |
+| C6  | 4.7 nF       | Compensation cap (COMP pin)      |
+| L1  | 10 µH        | Inductor, Isat ≥ 1.5 A           |
+| D1  | SS14         | Schottky diode                   |
+| C4  | 10–22 µF     | Input capacitor (power stage)    |
+| C5  | 4 × 4.7 µF   | Output capacitors (low ESR)      |
+
+---
