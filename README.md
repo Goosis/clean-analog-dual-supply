@@ -47,5 +47,11 @@ The project is currently in the schematic and layout design phase.
 
 ![ldo schematic](images/schematic_ldo.png)
 
+---
+
+## Simulation
+
+
+- A custom PSPICE model was written for the **AO3400A** MOSFET, as no accurate vendor model was available. This enabled realistic simulation of switching behavior and thermal characteristics in the boost converter stage.
 
 
