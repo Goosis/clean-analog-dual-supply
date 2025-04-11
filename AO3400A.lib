@@ -1,0 +1,32 @@
+* AO3400A N-Channel MOSFET PSpice Subcircuit
+* Based on AO3400A datasheet (Rev 3, Dec 2011)
+* VDS=30V, ID=5.7A, RDS(ON)=26.5mOhm @ VGS=10V
+.SUBCKT AO3400A D G S
+M1 D G S S NMOS W=1.0 L=1.0
+RDS D S RTEMP 26.5m
+CGS G S 30p
+DBODY D S DBD
+*
+.MODEL NMOS NMOS (LEVEL=3
++VTO=1.0     ; Threshold ~1.05V typical
++UO=400      ; Mobility
++TOX=5.2E-8  ; Gate oxide thickness (from datasheet)
++NSUB=1E16   ; Substrate doping
++ETA=0.1     ; DIBL
++THETA=0.1   ; Mobility degradation
++VMAX=2E5    ; Saturation velocity
++XJ=3E-7     ; Junction depth
++KAPPA=0.5   ; Saturation fitting
++TPG=-1      ; N-type
++RD=0.01     ; Drain resistance
++RS=0.01     ; Source resistance
++CGSO=1E-10  ; Gate-source overlap cap
++CGDO=1E-10  ; Gate-drain overlap cap
++CGBO=0      ; Gate-bulk overlap cap
++NFS=1E11    ; Fast surface state density
++DELTA=0)
+*
+.MODEL DBD D (IS=1E-12 RS=0.01 CJO=900p VJ=0.6 M=0.3 BV=30 IBV=1E-4 TT=16n N=1.0 FC=0.5)
+*
+.MODEL RTEMP RES (TC1=1.5E-3 TC2=1E-6)
+.ENDS AO3400A
