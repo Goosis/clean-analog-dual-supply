@@ -55,3 +55,10 @@
 - Next steps:
 - Define net classes (power, AGND, PGND, signals)
 - Begin PCB layout with controlled trace widths and return paths
+
+  ---
+## Day 3 – 2025-04-11
+
+Started simulating the TPS61287 boost converter in PSpice
+
+AO3400A MOSFET model was missing → wrote custom .lib manually
